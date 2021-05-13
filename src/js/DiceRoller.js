@@ -20,10 +20,14 @@ class DiceRoller extends Component {
     }
 
     show = () => {
+        var sum = 0;
+        this.state.dices.forEach(dice => sum += dice.result);
         var element = (<React.Fragment>
             <p>{this.state.dices.map((dice, index) => dice.result?<span key={index}>{`D${dice.type}`}:{dice.result}&nbsp;</span>:"")}</p>
+            <p>{sum > 0?`SUM:${sum}`:""}</p>
         </React.Fragment>);
-        return element;
+            
+        return element; 
     }
 
     clear = () => {
@@ -34,6 +38,7 @@ class DiceRoller extends Component {
 
     addDice = (dice) => {
         let diceTab = this.state.dices.map(dice => {return {type: dice.type, result: dice.result}});
+        console.log(diceTab)
         diceTab.push({type: dice, result: null});
 
         this.setState({
@@ -42,41 +47,15 @@ class DiceRoller extends Component {
     };
 
     choosedDices = () => {
-        let countDices = {
-            d4: 0,
-            d6: 0,
-            d8: 0,
-            d10: 0,
-            d12: 0,
-            d20: 0
-        };
-
+        let countDices = {};
         this.state.dices.forEach(dice => {  
-            switch(dice.type) {
-                case(4):
-                    countDices.d4 += 1; 
-                    break;
-                case(6): 
-                    countDices.d6 += 1; 
-                    break;
-                case(8): 
-                    countDices.d8 += 1; 
-                    break;
-                case(10): 
-                    countDices.d10 += 1; 
-                    break;
-                case(12): 
-                    countDices.d12 += 1; 
-                    break;
-                case(20): 
-                    countDices.d20 += 1; 
-                    break;
+            if(countDices[`d${dice.type}`] === undefined ){
+                countDices[`d${dice.type}`] = 0;
             }
-            console.log(countDices);
+            countDices[`d${dice.type}`] +=1;
         });
         let elements = [];
         for (const [key, value] of Object.entries(countDices)) {
-            console.log(`${key}: ${value}`);
             if (value == 0) continue;  
             elements.push(<span key={key}>{`${key}:${value}`}&nbsp;</span>)  
           }
@@ -91,18 +70,18 @@ class DiceRoller extends Component {
                     {this.show()}
                     </div>
                     <div className="displayContainer">
-                            {/* {this.state.dices.map((dice, index) => {return <span key={index}>{`D${dice.type}`}&nbsp;</span>})} */}
                             {this.choosedDices()}
                     </div>
                 </section>
                 <section className="section sectionBottom">
                     <div className="dices"> 
-                        <div className="diceBox" onClick={() => this.addDice(4)}>d4</div>
-                        <div className="diceBox" onClick={() => this.addDice(6)}>d6</div>
-                        <div className="diceBox" onClick={() => this.addDice(8)}>d8</div>
-                        <div className="diceBox" onClick={() => this.addDice(10)}>d10</div>
-                        <div className="diceBox" onClick={() => this.addDice(12)}>d12</div>
-                        <div className="diceBox" onClick={() => this.addDice(20)}>d20</div>
+                        <div className="diceBox" onClick={() => this.addDice(4)}>D4</div>
+                        <div className="diceBox" onClick={() => this.addDice(6)}>D6</div>
+                        <div className="diceBox" onClick={() => this.addDice(8)}>D8</div>
+                        <div className="diceBox" onClick={() => this.addDice(10)}>D10</div>
+                        <div className="diceBox" onClick={() => this.addDice(12)}>D12</div>
+                        <div className="diceBox" onClick={() => this.addDice(20)}>D20</div>
+                        <div className="diceBox" onClick={() => this.addDice(parseInt(window.prompt("Choose any dice number")))}>Choose Dice</div>
                     </div>
                     <div className="buttons">
                         <button type="submit" className="btn btnRoll" onClick={() => this.roll()}>ROLL</button>
