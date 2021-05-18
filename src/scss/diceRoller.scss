@@ -1,56 +1,167 @@
+@mixin button {
+    text-align: center;
+    margin: 10px;
+    padding: 6px 10px 6px 10px;
+    border-radius: 5px;
+    color: black;
+    background-color: rgb(255, 255, 255);
+    border: 1px solid white;
+    box-shadow: 0 0 12px 2px rgb(255, 255, 255),
+    inset 0 0 20px rgb(255, 255, 255);     
+    transition: 0.5s ease-in;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+    outline: none;
+    cursor: pointer;
+}
+$background: linear-gradient(90deg, rgba(2,0,36,1) 0%, rgba(40,40,124,1) 100%, rgba(0,212,255,1) 100%);
+$boxShadow: 0 0 12px 2px rgb(255, 255, 255);
+$boxShadowBright: 0 0 12px 8px rgb(255, 255, 255);
+
 .container {
     height: 100vh;
     width: 100vw;
-    .section {
-        width: 100%;
-        border: 1px solid black;
-    }
+    background: $background;
     .sectionTop {
-        height: 70%;
+        height: 60%;
         display: flex;
         justify-content: space-between;
         align-items: center;
         flex-direction: column;
         .resultContainer {
-            margin-top: 200px;
+            margin-top: 50px;
+            width: 100vw;
+            overflow: scroll;
+            color:white;
+            .form {
+                position: absolute;
+                left: 50%;
+                top:50%;
+                transform: translate(-50%, -100%);
+           
+               
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                border: 2px solid white;
+                box-shadow: $boxShadow;
+                background: rgb(0, 1, 77);
+                margin: 0 auto;
+                width: 220px;
+                height: 250px;
+                position: absolute;  
+                z-index: 1;
+                input {
+                    width: 100px;
+                    display: inline-block;
+                    @include button();
+                }
+                input:active {
+                    box-shadow: $boxShadowBright;
+                }
+                @media(hover: hover) and (pointer: fine) {
+                    input:hover{
+                        box-shadow: $boxShadowBright;
+                    }
+                }
+                input::-webkit-outer-spin-button,
+                input::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                }
+                label {
+                    text-align: center;
+                    padding: 5px;
+                }
+            }
+            p {
+                width: 100%;
+                display: inline-block;
+                text-align: center;
+            }
+            .rollContainer {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: row;
+                flex-wrap: wrap;
+                .singleRoll {
+                    @include button();
+                }
+            }
+            .sum {
+                font-size: 20px;
+            }
+        }
+        .resultContainer::-webkit-scrollbar {
+            display: none;
         }
         .displayContainer {
             width: 300px;
             height: 70px;
-            border: 1px solid black;
             display: flex;
             justify-content: center;
             align-items: center;
+            flex-wrap: wrap;
+            color: white;
+            .choosedDice {
+                position: relative;
+                margin-left: 12px;
+                font-size: 18px;
+            }
+            .choosedDice::after {
+                content: "";
+                width: 100%;
+                height: 2px;
+                top: 100%;
+                right: 1%;
+                position: absolute;
+                background-color: white;
+                box-shadow: $boxShadow;
+            }
         }
     }
     .sectionBottom {
-        height: 30%;
+        height: 40%;
         .dices {
             width: 100%;
-            border: 1px solid black;
+            border-top: 1px solid white;
+            border-bottom: 1px solid white;
+            box-shadow: $boxShadow;
             height: 50%;
             display: flex;
             justify-content: space-evenly;
             align-items: center;
-            .diceBox {
-                margin: 10px;
+            flex-wrap: wrap;
+            .btn {
+               @include button();
+            }
+            .btn:active {
+                box-shadow: $boxShadowBright;
+            }
+            @media(hover: hover) and (pointer: fine) {
+                .btn:hover{
+                    box-shadow: $boxShadowBright;
+                }
             }
         }
         .buttons {
             width: 100%;
-            border: 1px solid black;
             height: 50%;
             display: flex;
             justify-content: center;
             align-items: center;
             .btn {
-                margin: 20px;
-                border: 1px solid black;
-                padding: 10px;
-                width: 120px;
-                text-align: center;
+               @include button();
             }
-            
+            .btn:active {
+                box-shadow: $boxShadowBright;
+            }
+            @media(hover: hover) and (pointer: fine) {
+                .btn:hover{
+                    box-shadow: $boxShadowBright;
+                }
+            }
         }
     }
 }
