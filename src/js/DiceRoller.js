@@ -68,7 +68,6 @@ class DiceRoller extends Component {
 
     handleNumberChange = (e) => {
             this.setState({number: e.target.value});
-
     };
 
     handleSubmit = (e) => {
