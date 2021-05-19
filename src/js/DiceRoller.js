@@ -34,7 +34,7 @@ class DiceRoller extends Component {
         this.setState({
             dices: [],
             windowAction: false,
-        })
+        });
     };
 
     addDice = (dice) => {
@@ -51,8 +51,8 @@ class DiceRoller extends Component {
 
     choosedDices = () => {
         let countDices = {};
-        this.state.dices.forEach(dice => {  
-            if(countDices[`D${dice.type}`] === undefined ){
+        this.state.dices.forEach(dice => { 
+            if(countDices[`D${dice.type}`] === undefined){
                 countDices[`D${dice.type}`] = 0;
             }
             countDices[`D${dice.type}`] +=1;
@@ -67,18 +67,22 @@ class DiceRoller extends Component {
     };
 
     handleNumberChange = (e) => {
-        this.setState({number: e.target.value});
+            this.setState({number: e.target.value});
+
     };
 
     handleSubmit = (e) => {
         e.preventDefault();
-        if (parseFloat(this.state.number) <= 1 || parseFloat(this.state.number) >9999 || this.state.number === undefined) {
+        if (this.state.number <= 1) {
             this.setState({
-                windowAction: true
-            });
-        } else {
-            this.setState({windowAction: false});
-        }
+                windowAction: true,
+                number: undefined
+            })
+            alert("PLEASE CHOOSE VALUE GREATER THAN 1");
+            return;
+        };
+        this.addDice(parseFloat(this.state.number));
+        this.setState({windowAction: false});
     };
 
     openChooseWindow = () => {
@@ -87,10 +91,10 @@ class DiceRoller extends Component {
 
     createForm = () => {
         let form;
-        form = <form className="form" onSubmit={this.handleSubmit}>
-                <label>PLEASE CHOOSE NUMBER BETWEEN 2 AND 9999</label>
+        form = <form className="form">
+                <label>PLEASE CHOOSE VALUE GREATER THAN 1</label>
                 <input className="number" type="number" name="number" value={this.state.number} onChange={this.handleNumberChange}/>
-                <input onClick={() => this.addDice(parseFloat(this.state.number))} type="submit" value="Accept"/>
+                <input onClick={this.handleSubmit} type="submit" value="Accept"/> 
             </form>;
             return form;
     }
